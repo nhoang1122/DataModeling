@@ -1,0 +1,150 @@
+//BRAINSTORMING//
+
+USERS
+
+user_id 
+username
+first_name
+last_name
+email
+password
+
+RECIPES
+
+recipe_id
+user_id
+ingredients
+instructions
+is_public 
+
+OCCASIONS
+
+occasions_id
+user_id
+recipe_id
+occasions_description 
+
+GROCERY LIST
+
+grocery_list_id
+user_id
+ingredients
+
+REGISTRY
+
+registry_id
+user_id
+recipe_id
+occasions_id
+grocery_list_id
+ingredients
+
+
+//RELATIONSHIPS//
+
+ONE TO MANY
+
+User to Recipe : One user can have many recipes
+User to Grocery List : One user can have many recipes
+User to Occasions : One user can have many occasions
+
+ONE TO ONE 
+
+
+
+
+
+MANY TO MANY
+
+
+
+//COLUMNS//
+
+USERS
+
+user_id : SERIAL PRIMARY KEY
+username : VARCHAR(50)
+first_name : VARCHAR(50)
+last_name : VARCHAR(50)
+email : VARCHAR(100)
+password : VARCHAR(100)
+
+RECIPES
+
+recipe_id : SERIAL PRIMARY KEY
+user_id : INT 
+ingredients : TEXT(1000)
+instructions : TEXT(5000)
+is_public : BOOLEAN
+
+OCCASIONS
+
+occasions_id : SERIAL PRIMARY KEY
+user_id : INT
+recipe_id : INT
+occasions_description : TEXT(200)
+
+GROCERY LIST
+
+grocery_list_id : SERIAL PRIMARY KEY
+user_id : INT
+ingredients : TEXT(1000)
+
+REGISTRY
+
+registry_id : SERIAL PRIMARY KEY
+user_id : INT
+recipe_id : INT
+occasions_id : INT
+grocery_list_id : INT
+ingredients : TEXT(1000)
+
+
+//PART 3//
+
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL
+  );
+  
+CREATE TABLE ingredients (
+    ingredients_id SERIAL PRIMARY KEY,
+    ingredient_list TEXT NOT NULL
+    );
+
+CREATE TABLE recipes (
+    recipe_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    ingredients_id INT NOT NULL REFERENCES ingredients(ingredients_id),
+    instructions TEXT NOT NULL,
+    is_public BOOLEAN NOT NULL
+    );
+  
+CREATE TABLE occasions (
+    occasion_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    recipe_id INT NOT NULL REFERENCES recipes(recipe_id),
+    occasion_description TEXT NOT NULL
+    );
+CREATE TABLE grocery_list (
+    grocery_list_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    ingredients_id INT NOT NULL REFERENCES ingredients(ingredients_id)
+    );
+    
+CREATE TABLE registry (
+    registry_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id),
+    recipe_id INT NOT NULL REFERENCES recipes(recipe_id),
+    ingredients_id INT NOT NULL REFERENCES ingredients(ingredients_id),
+    occasion_id INT NOT NULL REFERENCES occasions(occasion_id),
+    grocery_list_id INT NOT NULL REFERENCES grocery_list(grocery_list_id)
+    );
+
+
+//INTERMEDIATE//
+
